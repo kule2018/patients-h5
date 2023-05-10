@@ -37,14 +37,14 @@ const onClickRight = () => {
 <style lang="scss" scoped>
 // TODO 深度作用其他组件样式
 :deep() {
-  // .van-nav-bar {
-  //   &__arrow {
-  //     font-size: 18px;
-  //     color: var(--cp-text1);
-  //   }
-  //   &__text {
-  //     font-size: 15px;
-  //   }
-  // }
+  .van-nav-bar {
+    &__arrow {
+      font-size: 18px;
+      color: var(--cp-text1);
+    }
+    &__text {
+      font-size: 15px;
+    }
+  }
 }
 </style>
