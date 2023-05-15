@@ -13,6 +13,10 @@ const router = createRouter({
   routes: [
     { path: '/login', component: () => import('@/views/Login/index.vue') },
     {
+      path: '/user/patient',
+      component: () => import('@/views/User/PatientPage.vue')
+    },
+    {
       path: '/',
       component: () => import('@/views/Layout/index.vue'),
       redirect: '/home',
