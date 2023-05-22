@@ -51,6 +51,10 @@
           提交
         </van-button>
       </van-form>
+      <!-- d底部操作栏 -->
+      <van-action-bar v-if="patient.id">
+        <van-action-bar-button @click="remove">删除</van-action-bar-button>
+      </van-action-bar>
     </van-popup>
     <!-- <div class="patient-add" v-if="list?.length < 6" @click="showPopup"></div> -->
     <cp-radio-btn :options="options" v-model="gender"></cp-radio-btn>
@@ -73,9 +77,6 @@
       <div class="patient-add" v-if="list?.length < 6" @click="showPopup()">
         <cp-icon name="user-add" />
         <p>添加患者</p>
-        <!-- <van-popup :show="show" @update:show="show = $event" position="right">
-          <cp-nav-bar title="添加患者" right-text="保存"></cp-nav-bar>
-        </van-popup> -->
       </div>
       <div class="patient-tip">最多可添加 6 人</div>
     </div>
@@ -83,7 +84,12 @@
 </template>
 
 <script setup lang="ts">
-import { addPatient, editPatient, getPatientList } from '@/services/user'
+import {
+  addPatient,
+  editPatient,
+  getPatientList,
+  delPatient
+} from '@/services/user'
 import type { Patient, PatientList } from '@/types/user'
 import { idCardRules, nameRules } from '@/utils/rules'
 import { showConfirmDialog, showSuccessToast, type FormInstance } from 'vant'
@@ -167,6 +173,20 @@ const onSubmit = async () => {
   showSuccessToast(patient.id ? '编辑成功' : '添加成功')
   console.log('通过校验')
 }
+
+// 删除患者
+const remove = async () => {
+  if (patient.id) {
+    await showConfirmDialog({
+      title: '温馨提示',
+      message: `您确定要删除 ${patient.name}患者信息`
+    })
+    await delPatient(patient.id)
+    show.value = false
+    loadList()
+    showSuccessToast('删除成功')
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -183,6 +203,14 @@ const onSubmit = async () => {
       height: 100%;
       padding-top: 46px;
       box-sizing: border-box;
+      .van-action-bar {
+        padding: 0 10px;
+        margin-bottom: 10px;
+        .van-button {
+          color: var(--cp-price);
+          background-color: var(--cp-bg);
+        }
+      }
     }
   }
 }
