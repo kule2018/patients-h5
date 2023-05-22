@@ -4,5 +4,6 @@
     "source.organizeImports": true,
     // "prettier.semi": true, 
   },
-  "prettier.semi": true
+  "prettier.semi": true,
+  "vue.codeActions.enabled": false
 }

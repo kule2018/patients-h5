@@ -2,9 +2,10 @@
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-defineProps<{
+const props = defineProps<{
   title?: string
   rightText?: string
+  back?: () => void
 }>()
 
 const emit = defineEmits<{
@@ -12,6 +13,11 @@ const emit = defineEmits<{
 }>()
 
 const onClickLeft = () => {
+  console.log(props.back)
+  if (props.back) {
+    return props.back()
+  }
+  // 判断历史记录中是否有回退
   if (history.state?.back) {
     router.back()
   } else {
