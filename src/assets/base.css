@@ -15,7 +15,7 @@
   --cp-line: #EDEDED;
   --cp-bg: #F6F7F9;
   --cp-price: #EB5757;
-   /* 覆盖vant主体色 */
+  /* 覆盖vant主体色 */
   --van-primary-color: var(--cp-primary);
   /* 单元格上下间距 */
   --van-cell-vertical-padding: 14px;
@@ -30,19 +30,42 @@
   color: var(--main);
 }
 
-body{
+body {
   font-size: 14px;
   color: var(--cp-text1);
 }
-a{
+
+a {
   color: var(--cp-text2);
 }
+
 /* TODO 重置样式 */
-h1,h2,h3,h4,h5,h6,p,ul,ol {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
   margin: 0;
   padding: 0;
 }
 
 #nprogress .bar {
   background-color: var(--cp-primary) !important;
+}
+
+/* 全局tab的样式都一样 */
+.van-tabs .van-tabs_nav {
+  padding: 0 0 15px 0;
+}
+
+.van-tabs .van-tabs__line {
+  width: 20px;
+  background-color: var(--cp-primary);
+}
+.van-tab{
+  padding: 0 15px;
 }

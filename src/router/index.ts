@@ -59,9 +59,9 @@ router.beforeEach((to) => {
   // 用户仓库
   const store = useUserStore()
   // 不需要登录的页面，白名单
-  const wihteList = ['/login', '/register']
+  const whiteList = ['/login', '/register']
   // 如果没有登录且不在白名单内，去登录
-  if (!store.user?.token && !wihteList.includes(to.path)) return '/login'
+  if (!store.user?.token && !whiteList.includes(to.path)) return '/login'
 })
 
 // TODO 修改标题放 后置守卫 ，切换路由完成后修改标题
