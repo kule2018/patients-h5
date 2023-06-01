@@ -11,8 +11,8 @@
         :show-indicators="false"
         :loop="false"
       >
-        <van-swipe-item v-for="item in 5" :key="item">
-          <DoctorCard />
+        <van-swipe-item v-for="item in list" :key="item.id">
+          <DoctorCard :item="item" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -22,20 +22,17 @@
 <script setup lang="ts">
 import DoctorCard from './DoctorCard.vue'
 import { useWindowSize } from '@vueuse/core'
-
+import { getDoctorPage } from '@/services/consult'
+import type { DoctorList } from '@/types/consult'
+import { ref } from 'vue'
+import { onMounted } from 'vue'
 const { width } = useWindowSize()
-
-// import { onMounted } from 'vue'
-// import { onUnmounted } from 'vue'
-// const width = ref(0)
-// const setWidth = () => (width.value = window.innerWidth)
-// onMounted(() => {
-//   setWidth()
-//   window.addEventListener('resize', setWidth)
-// })
-// onUnmounted(() => {
-//   window.removeEventListener('resize', setWidth)
-// })
+const list = ref<DoctorList>()
+const loadData = async () => {
+  const res = await getDoctorPage({ current: 1, pageSize: 5 })
+  list.value = res.data.rows
+}
+onMounted(() => loadData())
 </script>
 
 <style lang="scss" scoped>

@@ -2,8 +2,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
     "source.organizeImports": true,
-    // "prettier.semi": true, 
   },
   "prettier.semi": true,
-  "vue.codeActions.enabled": false
+  "vue.codeActions.enabled": true
 }

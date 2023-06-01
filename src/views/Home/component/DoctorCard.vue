@@ -1,17 +1,30 @@
 <template>
   <div class="doctor-card">
-    <van-image
+    <van-image round :src="item.avatar"></van-image>
+    <p class="name">{{ item.name }}</p>
+    <p class="van-ellipsis">
+      {{ item.hospitalName }}
+      {{ item.depName }}
+    </p>
+    <p>{{ item.positionalTitles }}</p>
+    <van-button
+      :loading="loading"
       round
-      src="https://yanxuan-item.nosdn.127.net/3cb61b3fd4761555e56c4a5f19d1b4b1.png"
-    ></van-image>
-    <p class="name">周医生</p>
-    <p class="van-ellipsis">解说谭易牙变</p>
-    <p>fuzhuren</p>
-    <van-button round size="small" type="primary">+关注</van-button>
+      size="small"
+      type="primary"
+      @click="follow(item)"
+    >
+      {{ item.likeFlag === 1 ? '已关注' : '+关注' }}
+    </van-button>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useFollow } from '@/composable';
+import type { Doctor } from '@/types/consult';
+const { loading, follow } = useFollow()
+defineProps<{ item: Doctor }>()
+</script>
 
 <style lang="scss" scoped>
 .doctor-card {
