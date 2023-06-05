@@ -7,6 +7,7 @@ const pinia = createPinia()
 // 使用persist插件
 pinia.use(persist)
 
+export * from './modules/consult'
 export * from './modules/user'
 
 // 导出pinia实例，给main使用

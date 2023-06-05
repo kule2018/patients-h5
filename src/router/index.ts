@@ -18,6 +18,20 @@ const router = createRouter({
       component: () => import('@/views/User/PatientPage.vue')
     },
     {
+      path: '/consult/fast',
+      component: () => import('@/views/Consult/ConsultFast.vue'),
+      meta: {
+        title: '极速问诊'
+      }
+    },
+    {
+      path: '/consult/dep',
+      component: () => import('@/views/Consult/ConsultDep.vue'),
+      meta: {
+        title: '选择科室'
+      }
+    },
+    {
       path: '/',
       component: () => import('@/views/Layout/index.vue'),
       redirect: '/home',
