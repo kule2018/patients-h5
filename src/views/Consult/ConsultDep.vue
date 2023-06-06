@@ -3,24 +3,39 @@
     <cp-nav-bar title="选择科室" />
     <div class="wrapper">
       <van-sidebar v-model="active">
-        <van-sidebar-item title="内科" />
-        <van-sidebar-item title="外科" />
-        <van-sidebar-item title="皮肤科" />
-        <van-sidebar-item title="骨科" />
+        <van-sidebar-item
+          v-for="top in allDep"
+          :key="top.id"
+          :title="top.name"
+        />
       </van-sidebar>
       <div class="sub-dep">
-        <router-link to="/consult/illness">科室一</router-link>
-        <router-link to="/consult/illness">科室二</router-link>
-        <router-link to="/consult/illness">科室三</router-link>
+        <router-link
+          to="/consult/illness"
+          v-for="sub in subDep"
+          :key="sub.id"
+          @click="store.setDep(sub.id)"
+          >{{ sub.name }}</router-link
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
+import { getAllDep } from '@/services/consult'
+import { useConsultStore } from '@/stores'
+import type { TopDep } from '@/types/consult'
+import { computed, onMounted, ref } from 'vue'
+const store = useConsultStore()
 const active = ref(0)
+const allDep = ref<TopDep[]>([]) // 一级部门
+const subDep = computed(() => allDep.value[active.value]?.child)
+
+onMounted(async () => {
+  const res = await getAllDep()
+  allDep.value = res.data
+})
 </script>
 
 <style lang="scss" scoped>

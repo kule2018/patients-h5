@@ -118,3 +118,21 @@ export type Consult = {
   couponId: string
 }
 export type PartialConsult = Partial<Consult>
+
+// 科室
+export type SubDep = {
+  /** 科室ID */
+  id: string
+  /** 科室名称 */
+  name: string
+}
+
+export type TopDep = SubDep & {
+  /** 二级科室数组 */
+  child: SubDep[]
+}
+
+export type ConsultIllness = Pick<
+  PartialConsult,
+  'illnessDesc' | 'illnessTime' | 'consultFlag' | 'pictures'
+>

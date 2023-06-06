@@ -44,4 +44,4 @@ pnpm build
 ```sh
 pnpm lint
 ```
-极速问诊 问诊类型
+选择科室 业务
