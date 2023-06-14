@@ -34,18 +34,22 @@
         <p>此次病情是否去医院就诊过？</p>
         <cp-radio-btn :options="flagOptions" v-model="form.consultFlag" />
       </div>
-    </div>
-    <div class="illness-img">
-      <van-uploader
-        max-count="9"
-        :max-size="5 * 1024 * 1024"
-        upload-icon="photo-0"
-        upload-text="上传图片"
-        :after-read="onAfterRead"
-        @delete="onDeleteImg"
-        v-model="fileList"
-      ></van-uploader>
-      <p class="tip">上传内容仅医生可见,最多9张图,最大5MB</p>
+      <!-- 文件上传 -->
+      <div class="illness-img">
+        <van-uploader
+          max-count="9"
+          :max-size="5 * 1024 * 1024"
+          upload-icon="photo"
+          upload-text="上传图片"
+          :after-read="onAfterRead"
+          @delete="onDeleteImg"
+          v-model="fileList"
+        ></van-uploader>
+        <p class="tip">上传内容仅医生可见,最多9张图,最大5MB</p>
+      </div>
+      <van-button :class="{ disabled }" @click="next" block type="primary" round
+        >下一步</van-button
+      >
     </div>
   </div>
 </template>
@@ -53,12 +57,25 @@
 <script lang="ts" setup>
 import { IllnessTime } from '@/enum'
 import { uploadImages } from '@/services/consult'
+import { useConsultStore } from '@/stores'
 import type { ConsultIllness } from '@/types/consult'
+import { showToast } from 'vant'
 import type {
 UploaderAfterRead,
 UploaderFileListItem
 } from 'vant/lib/uploader/types'
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const store = useConsultStore()
+const router = useRouter()
+
+const disabled = computed(
+  () =>
+    !form.illnessDesc ||
+    form.illnessTime === undefined ||
+    form.consultFlag == undefined
+)
 const timeOptions = [
   { label: '一周内', value: IllnessTime.Week },
   { label: '一月内', value: IllnessTime.Month },
@@ -98,6 +115,15 @@ const onAfterRead: UploaderAfterRead = (item) => {
 }
 const onDeleteImg = (item: UploaderFileListItem) => {
   form.pictures = form.pictures?.filter((pic) => pic.url !== item.url)
+}
+
+const next = () => {
+  if (!form.illnessDesc) return showToast('请输入病情描述')
+  if (form.illnessTime === undefined) return showToast('请选择症状持续时间')
+  if (form.consultFlag === undefined) return showToast('请选择是否已经就诊')
+  store.setIllness(form)
+  // 跳转档案管理，需要根据 isChange实现选择功能
+  router.push('/user/patient?isChange=1')
 }
 </script>
 
@@ -165,7 +191,7 @@ const onDeleteImg = (item: UploaderFileListItem) => {
     font-size: 12px;
     color: var(--cp-tip);
   }
-  :deep() {
+  ::v-deep() {
     .van-uploader {
       &__preview {
         &-delete {
@@ -191,6 +217,17 @@ const onDeleteImg = (item: UploaderFileListItem) => {
         color: var(--cp-text3);
       }
     }
+  }
+}
+
+.van-button {
+  font-size: 16px;
+  margin-bottom: 30px;
+  &.disabled {
+    opacity: 1;
+    background: #fafafa;
+    color: #9dbde9;
+    border: #fafafa;
   }
 }
 </style>

@@ -44,4 +44,3 @@ pnpm build
 ```sh
 pnpm lint
 ```
-选择科室 业务

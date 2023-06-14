@@ -1,10 +1,13 @@
 import type {
+  ConsultOrderPreData,
+  ConsultOrderPreParams,
   DoctorPage,
   FollowType,
   Image,
   KnowledgePage,
   KnowledgeParams,
   PageParams,
+  PartialConsult,
   TopDep
 } from '@/types/consult'
 import { request } from '@/utils/request'
@@ -29,3 +32,17 @@ export const uploadImages = (file: File) => {
   fd.append('file', file)
   return request<Image>('/upload', 'post', fd)
 }
+// 拉取预支付订单信息
+export const getConsultOrderPre = (params: ConsultOrderPreParams) =>
+  request<ConsultOrderPreData>('/patient/consult/order/pre', 'get', params)
+
+// 生成订单
+export const createConsultOrder = (data: PartialConsult) =>
+  request<{ id: string }>('/patient/consult/order', 'post', data)
+
+// 获取支付地址  0 是微信  1 支付宝
+export const getConsultOrderPayUrl = (params: {
+  paymentMethod: 0 | 1
+  orderId: string
+  payCallback: string
+}) => request<{ payUrl: string }>('/patient/consult/pay', 'POST', params)
